@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CheapFinder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 40px;
+    }
+    .card {
+      max-width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 { text-align: center; }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #e5f0ff;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>CheapFinder 💰</h1>
+    <input id="productInput" placeholder="headphones or keyboard" />
+    <button onclick="findCheapest()">Find Cheapest</button>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const products = {
+      headphones: [
+        { store: "Amazon", price: 25 },
+        { store: "Walmart", price: 22 }
+      ],
+      keyboard: [
+        { store: "Amazon", price: 30 },
+        { store: "Walmart", price: 27 }
+      ]
+    };
+
+    function findCheapest() {
+      const input = productInput.value.toLowerCase();
+      const output = document.getElementById("output");
+
+      if (!products[input]) {
+        output.innerHTML = "Product not found";
+        return;
+      }
+
+      let cheapest = products[input][0];
+      for (let item of products[input]) {
+        if (item.price < cheapest.price) cheapest = item;
+      }
+
+      output.innerHTML = `Cheapest: ${cheapest.store} – $${cheapest.price}`;
+    }
+  </script>
+</body>
+</html>
