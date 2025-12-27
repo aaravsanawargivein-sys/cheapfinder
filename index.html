@@ -10,14 +10,16 @@
       padding: 40px;
     }
     .card {
-      max-width: 400px;
+      max-width: 420px;
       margin: auto;
       background: white;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
-    h1 { text-align: center; }
+    h1 {
+      text-align: center;
+    }
     input, button {
       width: 100%;
       padding: 10px;
@@ -29,11 +31,12 @@
       color: white;
       border: none;
       border-radius: 6px;
+      cursor: pointer;
     }
     .result {
       margin-top: 20px;
-      padding: 10px;
       background: #e5f0ff;
+      padding: 12px;
       border-radius: 6px;
     }
   </style>
@@ -41,38 +44,33 @@
 <body>
   <div class="card">
     <h1>CheapFinder 💰</h1>
-    <input id="productInput" placeholder="headphones or keyboard" />
+    <p>Find where a product is usually cheapest.</p>
+    <input id="productInput" placeholder="Enter any product (e.g. phone, shoes)" />
     <button onclick="findCheapest()">Find Cheapest</button>
     <div id="output"></div>
   </div>
 
   <script>
-    const products = {
-      headphones: [
-        { store: "Amazon", price: 25 },
-        { store: "Walmart", price: 22 }
-      ],
-      keyboard: [
-        { store: "Amazon", price: 30 },
-        { store: "Walmart", price: 27 }
-      ]
-    };
-
     function findCheapest() {
-      const input = productInput.value.toLowerCase();
+      const product = document.getElementById("productInput").value.trim();
       const output = document.getElementById("output");
 
-      if (!products[input]) {
-        output.innerHTML = "Product not found";
+      if (product === "") {
+        output.innerHTML = "Please enter a product name.";
         return;
       }
 
-      let cheapest = products[input][0];
-      for (let item of products[input]) {
-        if (item.price < cheapest.price) cheapest = item;
-      }
-
-      output.innerHTML = `Cheapest: ${cheapest.store} – $${cheapest.price}`;
+      output.innerHTML = `
+        <div class="result">
+          <strong>${product}</strong><br><br>
+          Cheapest options usually found at:<br>
+          • Amazon<br>
+          • Walmart<br>
+          • Target<br>
+          • Local stores<br><br>
+          <em>Tip:</em> Check discounts and sales for best price.
+        </div>
+      `;
     }
   </script>
 </body>
