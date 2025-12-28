@@ -1,258 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>CheapFinder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>cheapfinder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    :root {
-      --bg: linear-gradient(135deg, #2563eb, #22c55e);
-      --card: #ffffff;
-      --text: #111827;
-      --subtext: #6b7280;
-      --primary: #2563eb;
-      --accent: #22c55e;
-      --result: #f1f5f9;
-    }
+<style>
+:root{
+  --primary:#2563eb;
+  --accent:#22c55e;
+  --bg:#0f172a;
+  --card:#020617;
+  --text:#e5e7eb;
+  --sub:#94a3b8;
+}
 
-    body.dark {
-      --bg: #0f172a;
-      --card: #020617;
-      --text: #e5e7eb;
-      --subtext: #94a3b8;
-      --primary: #38bdf8;
-      --accent: #22c55e;
-      --result: #020617;
-    }
+body{
+  margin:0;
+  font-family:system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, sans-serif;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+/* Splash */
+#splash{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#2563eb,#22c55e);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  font-weight:700;
+  z-index:10;
+  animation:fadeOut 1s ease forwards;
+  animation-delay:1.8s;
+}
 
-    .card {
-      width: 100%;
-      max-width: 480px;
-      background: var(--card);
-      padding: 24px;
-      border-radius: 22px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-      animation: fadeIn 0.4s ease;
-    }
+#splash span{
+  font-size:42px;
+  margin-bottom:10px;
+}
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+@keyframes fadeOut{
+  to{opacity:0;pointer-events:none;}
+}
 
-    .top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+/* Layout */
+.container{
+  max-width:460px;
+  margin:60px auto;
+  padding:20px;
+}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+.card{
+  background:var(--card);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 25px 50px rgba(0,0,0,.4);
+  animation:slideUp .5s ease;
+}
 
-    .logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #22c55e, #2563eb);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 20px;
-      font-weight: 700;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
-    }
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;}
+}
 
-    h1 {
-      margin: 0;
-      font-size: 22px;
-      color: var(--text);
-    }
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
 
-    .toggle {
-      cursor: pointer;
-      font-size: 20px;
-    }
+.logo{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#22c55e,#2563eb);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+}
 
-    .subtitle {
-      text-align: center;
-      color: var(--subtext);
-      font-size: 14px;
-      margin: 14px 0 22px;
-    }
+h1{margin:0;font-size:22px;}
+.subtitle{
+  text-align:center;
+  color:var(--sub);
+  margin:16px 0 20px;
+  font-size:14px;
+}
 
-    select, input, button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 12px;
-      font-size: 15px;
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-    }
+select,input,button{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border-radius:10px;
+  border:1px solid #334155;
+  background:#020617;
+  color:var(--text);
+  font-size:15px;
+}
 
-    body.dark select,
-    body.dark input {
-      background: #020617;
-      color: var(--text);
-      border-color: #334155;
-    }
+button{
+  background:var(--primary);
+  border:none;
+  font-weight:600;
+  cursor:pointer;
+}
 
-    button {
-      background: var(--primary);
-      color: white;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-    }
+button:hover{opacity:.9}
 
-    button:hover {
-      opacity: 0.92;
-    }
+.store{
+  background:#020617;
+  border-radius:12px;
+  padding:14px;
+  margin-top:12px;
+  animation:slideUp .4s ease;
+}
 
-    .loading {
-      text-align: center;
-      font-size: 14px;
-      color: var(--subtext);
-      margin-top: 16px;
-    }
+.store a{
+  color:#22c55e;
+  text-decoration:none;
+  font-weight:600;
+}
 
-    .result {
-      margin-top: 20px;
-      background: var(--result);
-      padding: 16px;
-      border-radius: 14px;
-      font-size: 14px;
-      color: var(--text);
-      animation: fadeIn 0.3s ease;
-    }
+.price{
+  color:var(--sub);
+  font-size:13px;
+  margin-top:4px;
+}
 
-    .store-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
-      padding: 12px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-      background: var(--accent);
-      color: white;
-    }
+.loading{
+  text-align:center;
+  margin-top:20px;
+  color:var(--sub);
+}
 
-    .store-btn:hover {
-      opacity: 0.9;
-    }
-
-    .disclaimer {
-      margin-top: 12px;
-      font-size: 12px;
-      color: var(--subtext);
-      text-align: center;
-    }
-  </style>
+.footer{
+  text-align:center;
+  font-size:12px;
+  color:var(--sub);
+  margin-top:14px;
+}
+</style>
 </head>
+
 <body>
 
+<div id="splash">
+  <span>⚡💰</span>
+  loading cheapfinder…
+</div>
+
+<div class="container">
   <div class="card">
-    <div class="top">
-      <div class="brand">
-        <div class="logo">💸</div>
-        <h1>CheapFinder</h1>
-      </div>
-      <div class="toggle" onclick="toggleDark()">🌙</div>
+    <div class="brand">
+      <div class="logo">⚡💰</div>
+      <h1>cheapfinder</h1>
     </div>
 
     <div class="subtitle">
-      Save money by finding the cheapest store instantly
+      Find the cheapest store instantly (estimated prices)
     </div>
 
-    <select id="category">
-      <option value="">Select category (optional)</option>
-      <option value="Electronics">📱 Electronics</option>
-      <option value="Clothing">👕 Clothing</option>
-      <option value="Food">🍔 Food</option>
-      <option value="Home">🏠 Home</option>
-      <option value="Gaming">🎮 Gaming</option>
+    <select id="country">
+      <option value="">Where are you located?</option>
+      <option value="IN">🇮🇳 India</option>
+      <option value="US">🇺🇸 USA</option>
+      <option value="OTHER">🌍 Other</option>
     </select>
 
-    <input id="productInput" placeholder="Try: headphones, shoes, charger" />
-    <button onclick="findCheapest()">Find Cheapest</button>
+    <input id="product" placeholder="Try: headphones, shoes, charger">
+    <button onclick="search()">Find deals</button>
 
     <div id="output"></div>
   </div>
+</div>
 
-  <script>
-    function toggleDark() {
-      document.body.classList.toggle("dark");
+<script>
+function search(){
+  const country=document.getElementById("country").value;
+  const product=document.getElementById("product").value.trim();
+  const out=document.getElementById("output");
+
+  if(!country || !product){
+    out.innerHTML="<div class='loading'>Please select country and product.</div>";
+    return;
+  }
+
+  out.innerHTML="<div class='loading'>🔎 Searching best options…</div>";
+
+  setTimeout(()=>{
+    let stores=[];
+
+    if(country==="IN"){
+      stores=[
+        {n:"Amazon India",p:"₹800 – ₹2,500",u:"https://www.amazon.in/s?k="+product},
+        {n:"Flipkart",p:"₹750 – ₹2,300",u:"https://www.flipkart.com/search?q="+product},
+        {n:"Meesho",p:"₹600 – ₹2,000",u:"https://www.meesho.com/search?q="+product}
+      ];
+    }
+    else if(country==="US"){
+      stores=[
+        {n:"Amazon",p:"$15 – $60",u:"https://www.amazon.com/s?k="+product},
+        {n:"Walmart",p:"$14 – $55",u:"https://www.walmart.com/search?q="+product},
+        {n:"Best Buy",p:"$20 – $80",u:"https://www.bestbuy.com/site/searchpage.jsp?st="+product}
+      ];
+    }
+    else{
+      stores=[
+        {n:"Amazon",p:"Varies",u:"https://www.amazon.com/s?k="+product},
+        {n:"eBay",p:"Varies",u:"https://www.ebay.com/sch/i.html?_nkw="+product}
+      ];
     }
 
-    function findCheapest() {
-      const product = document.getElementById("productInput").value.trim();
-      const category = document.getElementById("category").value;
-      const output = document.getElementById("output");
+    let html="";
+    stores.forEach(s=>{
+      html+=`
+        <div class="store">
+          <strong>${s.n}</strong>
+          <div class="price">Estimated price: ${s.p}</div>
+          <a href="${s.u}" target="_blank">View deal →</a>
+        </div>`;
+    });
 
-      if (!product) {
-        output.innerHTML = "<div class='result'>Please enter a product name.</div>";
-        return;
-      }
+    html+=`<div class="footer">
+      Prices are estimates • No sign-up • Affiliate links may be used
+    </div>`;
 
-      output.innerHTML = "<div class='loading'>🔎 Searching deals…</div>";
-
-      setTimeout(() => {
-        const encoded = encodeURIComponent(product);
-
-        const amazonTag = "yourtag-20";
-        const ebayTag = "yourebayid";
-
-        const stores = [
-          { name: "Amazon", icon: "🟧", url: "https://www.amazon.com/s?k=" + encoded + "&tag=" + amazonTag },
-          { name: "Walmart", icon: "🟦", url: "https://www.walmart.com/search?q=" + encoded },
-          { name: "Target", icon: "🔴", url: "https://www.target.com/s?searchTerm=" + encoded },
-          { name: "Best Buy", icon: "🟨", url: "https://www.bestbuy.com/site/searchpage.jsp?st=" + encoded },
-          { name: "eBay", icon: "🟩", url: "https://www.ebay.com/sch/i.html?_nkw=" + encoded + "&campid=" + ebayTag }
-        ];
-
-        let html = `
-          <div class="result">
-            <strong>${product}</strong><br>
-            Category: ${category || "Not selected"}
-          </div>
-        `;
-
-        stores.forEach(store => {
-          html += `
-            <a class="store-btn" href="${store.url}" target="_blank">
-              ${store.icon} ${store.name}
-            </a>
-          `;
-        });
-
-        html += `
-          <div class="disclaimer">
-            Free • No sign-up • Some links may be affiliate links
-          </div>
-        `;
-
-        output.innerHTML = html;
-      }, 700);
-    }
-  </script>
+    out.innerHTML=html;
+  },900);
+}
+</script>
 
 </body>
 </html>
