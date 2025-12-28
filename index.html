@@ -33,6 +33,20 @@
       border-radius: 6px;
       cursor: pointer;
     }
+    .store-btn {
+      display: block;
+      text-decoration: none;
+      background: #10b981;
+      color: white;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .store-btn:hover {
+      background: #059669;
+    }
     .result {
       margin-top: 20px;
       background: #e5f0ff;
@@ -44,8 +58,8 @@
 <body>
   <div class="card">
     <h1>CheapFinder 💰</h1>
-    <p>Find where a product is usually cheapest.</p>
-    <input id="productInput" placeholder="Enter any product (e.g. phone, shoes)" />
+    <p>Find where a product is cheapest.</p>
+    <input id="productInput" placeholder="Enter any product (e.g. shoes, phone)" />
     <button onclick="findCheapest()">Find Cheapest</button>
     <div id="output"></div>
   </div>
@@ -60,15 +74,19 @@
         return;
       }
 
+      const amazonLink = "https://www.amazon.com/s?k=" + encodeURIComponent(product);
+      const walmartLink = "https://www.walmart.com/search?q=" + encodeURIComponent(product);
+      const targetLink = "https://www.target.com/s?searchTerm=" + encodeURIComponent(product);
+
       output.innerHTML = `
         <div class="result">
           <strong>${product}</strong><br><br>
-          Cheapest options usually found at:<br>
-          • Amazon<br>
-          • Walmart<br>
-          • Target<br>
-          • Local stores<br><br>
-          <em>Tip:</em> Check discounts and sales for best price.
+          Check these stores for the best price:
+          <a class="store-btn" href="${amazonLink}" target="_blank">🛒 Amazon</a>
+          <a class="store-btn" href="${walmartLink}" target="_blank">🛒 Walmart</a>
+          <a class="store-btn" href="${targetLink}" target="_blank">🛒 Target</a>
+          <br>
+          <em>Tip:</em> Prices change — check sales!
         </div>
       `;
     }
