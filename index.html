@@ -3,64 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <title>CheapFinder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-      padding: 40px;
-    }
-    .card {
-      max-width: 450px;
-      margin: auto;
-      background: white;
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(135deg, #2563eb, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
-    h1 { text-align: center; }
-    input, select, button {
+
+    .card {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 16px;
+      max-width: 460px;
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      animation: fadeIn 0.6s ease;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      text-align: center;
+      margin: 0;
+      color: #111827;
+    }
+
+    p.subtitle {
+      text-align: center;
+      color: #6b7280;
+      margin: 8px 0 20px;
+      font-size: 14px;
+    }
+
+    select, input, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 12px;
+      font-size: 15px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      outline: none;
+    }
+
+    select:focus, input:focus {
+      border-color: #2563eb;
+    }
+
     button {
       background: #2563eb;
       color: white;
+      font-weight: 600;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
     }
-    .store-btn {
-      display: block;
-      text-decoration: none;
-      background: #10b981;
-      color: white;
-      padding: 10px;
-      margin-top: 8px;
-      border-radius: 6px;
-      text-align: center;
-      font-weight: bold;
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(37,99,235,0.3);
     }
-    .store-btn:hover {
-      background: #059669;
-    }
+
     .result {
       margin-top: 20px;
-      background: #e5f0ff;
-      padding: 12px;
-      border-radius: 6px;
+      background: #f1f5f9;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #111827;
     }
-    .disclaimer {
+
+    .store-btn {
+      display: block;
       margin-top: 10px;
+      padding: 12px;
+      text-align: center;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      background: #22c55e;
+      color: white;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .store-btn:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+    }
+
+    .disclaimer {
+      margin-top: 12px;
       font-size: 12px;
-      color: #555;
+      color: #6b7280;
+      text-align: center;
     }
   </style>
 </head>
 <body>
+
   <div class="card">
     <h1>CheapFinder 💰</h1>
+    <p class="subtitle">Find the cheapest place to buy anything</p>
 
     <select id="category">
       <option value="">Select a category</option>
@@ -83,45 +134,28 @@
       const category = document.getElementById("category").value;
       const output = document.getElementById("output");
 
-      if (product === "") {
-        output.innerHTML = "Please enter a product name.";
+      if (!product) {
+        output.innerHTML = "<div class='result'>Please enter a product name.</div>";
         return;
       }
 
       const encoded = encodeURIComponent(product);
 
-      // 👉 REPLACE THESE WITH REAL TAGS LATER
       const amazonTag = "yourtag-20";
       const ebayTag = "yourebayid";
 
       const stores = [
-        {
-          name: "Amazon",
-          url: "https://www.amazon.com/s?k=" + encoded + "&tag=" + amazonTag
-        },
-        {
-          name: "Walmart",
-          url: "https://www.walmart.com/search?q=" + encoded
-        },
-        {
-          name: "Target",
-          url: "https://www.target.com/s?searchTerm=" + encoded
-        },
-        {
-          name: "Best Buy",
-          url: "https://www.bestbuy.com/site/searchpage.jsp?st=" + encoded
-        },
-        {
-          name: "eBay",
-          url: "https://www.ebay.com/sch/i.html?_nkw=" + encoded + "&campid=" + ebayTag
-        }
+        { name: "Amazon", url: "https://www.amazon.com/s?k=" + encoded + "&tag=" + amazonTag },
+        { name: "Walmart", url: "https://www.walmart.com/search?q=" + encoded },
+        { name: "Target", url: "https://www.target.com/s?searchTerm=" + encoded },
+        { name: "Best Buy", url: "https://www.bestbuy.com/site/searchpage.jsp?st=" + encoded },
+        { name: "eBay", url: "https://www.ebay.com/sch/i.html?_nkw=" + encoded + "&campid=" + ebayTag }
       ];
 
       let html = `
         <div class="result">
           <strong>${product}</strong><br>
-          Category: ${category || "Not selected"}<br><br>
-          Check these stores:
+          Category: ${category || "Not selected"}
         </div>
       `;
 
@@ -138,5 +172,6 @@
       output.innerHTML = html;
     }
   </script>
+
 </body>
 </html>
