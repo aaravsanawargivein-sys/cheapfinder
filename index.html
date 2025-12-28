@@ -17,9 +17,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
-    h1 {
-      text-align: center;
-    }
+    h1 { text-align: center; }
     input, button {
       width: 100%;
       padding: 10px;
@@ -39,7 +37,7 @@
       background: #10b981;
       color: white;
       padding: 10px;
-      margin-top: 10px;
+      margin-top: 8px;
       border-radius: 6px;
       text-align: center;
       font-weight: bold;
@@ -58,7 +56,7 @@
 <body>
   <div class="card">
     <h1>CheapFinder 💰</h1>
-    <p>Find where a product is cheapest.</p>
+    <p>Find where a product might be cheapest.</p>
     <input id="productInput" placeholder="Enter any product (e.g. shoes, phone)" />
     <button onclick="findCheapest()">Find Cheapest</button>
     <div id="output"></div>
@@ -74,21 +72,23 @@
         return;
       }
 
-      const amazonLink = "https://www.amazon.com/s?k=" + encodeURIComponent(product);
-      const walmartLink = "https://www.walmart.com/search?q=" + encodeURIComponent(product);
-      const targetLink = "https://www.target.com/s?searchTerm=" + encodeURIComponent(product);
+      const encoded = encodeURIComponent(product);
 
-      output.innerHTML = `
-        <div class="result">
-          <strong>${product}</strong><br><br>
-          Check these stores for the best price:
-          <a class="store-btn" href="${amazonLink}" target="_blank">🛒 Amazon</a>
-          <a class="store-btn" href="${walmartLink}" target="_blank">🛒 Walmart</a>
-          <a class="store-btn" href="${targetLink}" target="_blank">🛒 Target</a>
-          <br>
-          <em>Tip:</em> Prices change — check sales!
-        </div>
-      `;
+      const stores = [
+        { name: "Amazon", url: "https://www.amazon.com/s?k=" + encoded },
+        { name: "Walmart", url: "https://www.walmart.com/search?q=" + encoded },
+        { name: "Target", url: "https://www.target.com/s?searchTerm=" + encoded },
+        { name: "Best Buy", url: "https://www.bestbuy.com/site/searchpage.jsp?st=" + encoded },
+        { name: "eBay", url: "https://www.ebay.com/sch/i.html?_nkw=" + encoded }
+      ];
+
+      let html = `<div class="result"><strong>${product}</strong><br><br>Check these stores:</div>`;
+
+      stores.forEach(store => {
+        html += `<a class="store-btn" href="${store.url}" target="_blank">🛒 ${store.name}</a>`;
+      });
+
+      output.innerHTML = html;
     }
   </script>
 </body>
