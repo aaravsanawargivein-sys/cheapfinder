@@ -10,7 +10,7 @@
       padding: 40px;
     }
     .card {
-      max-width: 420px;
+      max-width: 450px;
       margin: auto;
       background: white;
       padding: 20px;
@@ -18,7 +18,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     h1 { text-align: center; }
-    input, button {
+    input, select, button {
       width: 100%;
       padding: 10px;
       margin-top: 10px;
@@ -56,15 +56,27 @@
 <body>
   <div class="card">
     <h1>CheapFinder 💰</h1>
-    <p>Find where a product might be cheapest.</p>
-    <input id="productInput" placeholder="Enter any product (e.g. shoes, phone)" />
+    <p>Find the cheapest place to buy a product.</p>
+
+    <select id="category">
+      <option value="">Select a category</option>
+      <option value="Electronics">📱 Electronics</option>
+      <option value="Clothing">👕 Clothing</option>
+      <option value="Food">🍔 Food</option>
+      <option value="Home">🏠 Home</option>
+      <option value="Gaming">🎮 Gaming</option>
+    </select>
+
+    <input id="productInput" placeholder="Enter product name (e.g. headphones)" />
     <button onclick="findCheapest()">Find Cheapest</button>
+
     <div id="output"></div>
   </div>
 
   <script>
     function findCheapest() {
       const product = document.getElementById("productInput").value.trim();
+      const category = document.getElementById("category").value;
       const output = document.getElementById("output");
 
       if (product === "") {
@@ -82,7 +94,13 @@
         { name: "eBay", url: "https://www.ebay.com/sch/i.html?_nkw=" + encoded }
       ];
 
-      let html = `<div class="result"><strong>${product}</strong><br><br>Check these stores:</div>`;
+      let html = `
+        <div class="result">
+          <strong>${product}</strong><br>
+          Category: ${category || "Not selected"}<br><br>
+          Check these stores:
+        </div>
+      `;
 
       stores.forEach(store => {
         html += `<a class="store-btn" href="${store.url}" target="_blank">🛒 ${store.name}</a>`;
