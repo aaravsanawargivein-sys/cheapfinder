@@ -51,12 +51,16 @@
       padding: 12px;
       border-radius: 6px;
     }
+    .disclaimer {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #555;
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>CheapFinder 💰</h1>
-    <p>Find the cheapest place to buy a product.</p>
 
     <select id="category">
       <option value="">Select a category</option>
@@ -86,12 +90,31 @@
 
       const encoded = encodeURIComponent(product);
 
+      // 👉 REPLACE THESE WITH REAL TAGS LATER
+      const amazonTag = "yourtag-20";
+      const ebayTag = "yourebayid";
+
       const stores = [
-        { name: "Amazon", url: "https://www.amazon.com/s?k=" + encoded },
-        { name: "Walmart", url: "https://www.walmart.com/search?q=" + encoded },
-        { name: "Target", url: "https://www.target.com/s?searchTerm=" + encoded },
-        { name: "Best Buy", url: "https://www.bestbuy.com/site/searchpage.jsp?st=" + encoded },
-        { name: "eBay", url: "https://www.ebay.com/sch/i.html?_nkw=" + encoded }
+        {
+          name: "Amazon",
+          url: "https://www.amazon.com/s?k=" + encoded + "&tag=" + amazonTag
+        },
+        {
+          name: "Walmart",
+          url: "https://www.walmart.com/search?q=" + encoded
+        },
+        {
+          name: "Target",
+          url: "https://www.target.com/s?searchTerm=" + encoded
+        },
+        {
+          name: "Best Buy",
+          url: "https://www.bestbuy.com/site/searchpage.jsp?st=" + encoded
+        },
+        {
+          name: "eBay",
+          url: "https://www.ebay.com/sch/i.html?_nkw=" + encoded + "&campid=" + ebayTag
+        }
       ];
 
       let html = `
@@ -105,6 +128,12 @@
       stores.forEach(store => {
         html += `<a class="store-btn" href="${store.url}" target="_blank">🛒 ${store.name}</a>`;
       });
+
+      html += `
+        <div class="disclaimer">
+          *Some links may be affiliate links. Prices may change.
+        </div>
+      `;
 
       output.innerHTML = html;
     }
